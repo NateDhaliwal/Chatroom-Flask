@@ -1,10 +1,11 @@
 import sqlite3
 from sqlite3 import Cursor
 
-from flask import Flask, redirect, render_template
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask import Flask, redirect, render_template, url_for
 
 app = Flask(__name__)
+
+# Register all Blueprints
 
 userdataconn = sqlite3.connect("userdata.sqlite")
 chatsconn = sqlite3.connect("chatdb.sqlite")

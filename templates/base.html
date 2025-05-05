@@ -8,7 +8,7 @@
   <link href="/static/style.css" rel="stylesheet" />
 </head>
 <body>
-  {% includes "components/header.html" %}
+  {% include "components/header.html" %}
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -23,6 +23,6 @@
   {% block content %}
   {% endblock %}
 
-  {% includes "components/footer.html" %}
+  {% include "components/footer.html" %}
 </body>
 </html>

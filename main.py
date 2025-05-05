@@ -1,25 +1,12 @@
-import sqlite3
-from sqlite3 import Cursor
-
 from flask import Flask, redirect, render_template, url_for
+
+from blueprints.login_signup import login, login_signup
 
 app = Flask(__name__)
 
 # Register all Blueprints
+app.register_blueprint(login_signup)
 
-userdataconn = sqlite3.connect("userdata.sqlite")
-chatsconn = sqlite3.connect("chatdb.sqlite")
-
-userdb = userdataconn.cursor()
-chatdb = chatsconn.cursor()
-
-def execute(cursor: Cursor, query: str):
-  if cursor == userdb:
-    userdb.execute(query)
-    userdataconn.commit()
-  elif cursor == chatdb:
-    chatdb.execute(query)
-    chatsconn.commit()
 
 # Index BP
 @app.route('/')

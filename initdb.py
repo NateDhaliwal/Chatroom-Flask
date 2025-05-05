@@ -1,7 +1,5 @@
 from main import *
 
-
-
 execute(userdb, '''
 CREATE TABLE chatdb (
 id INTEGER PRIMARY KEY,

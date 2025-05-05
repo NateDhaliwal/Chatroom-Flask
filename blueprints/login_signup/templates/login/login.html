@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}Login | Chatroom{% endblock %}
+{% block title %}Signup | Chatroom{% endblock %}
 
 {% block content %}
 
 <h1>Login to Chatroom!</h1>
 
 <form action="/student/login" method="post">
-    <label for="username">
-        Username:
-        <input name="st-username" type="text" required />
-    </label>
-    <br />
-    <label for="password">
-        Password:
-        <input name="st-password" type="password" required />
-    </label>
-    <br />
-    <button class="btn btn-primary" type="submit">Login</button>
+  <label for="username">
+    Username:
+    <input name="username" type="text"  maxlength="15" required />
+  </label>
+  <br />
+  <label for="password">
+    Password:
+    <input name="password" type="password" maxlength="30" required />
+  </label>
+  <br />
+  <button class="btn btn-primary" type="submit">Login</button>
 </form>
 
 {% endblock %}

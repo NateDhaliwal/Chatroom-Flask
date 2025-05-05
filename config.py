@@ -9,8 +9,15 @@ chatdb = chatsconn.cursor()
 
 def execute(cursor: Cursor, query: str):
   if cursor == userdb:
-    userdb.execute(query)
-    userdataconn.commit()
+    if 'SELECT' in query:
+      return userdb.execute(query).fetchall()
+    else:
+      userdataconn.commit()
+      userdb.execute(query)
+      return None
   elif cursor == chatdb:
-    chatdb.execute(query)
-    chatsconn.commit()
+    if 'SELECT' in query:
+      return chatdb.execute(query).fetchall()
+    else:
+      chatsconn.commit()
+      chatdb.execute(query)

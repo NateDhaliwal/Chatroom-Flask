@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, url_for
 
-from blueprints.login_signup import login, login_signup
+from blueprints.login_signup import login_signup
 
 app = Flask(__name__)
 

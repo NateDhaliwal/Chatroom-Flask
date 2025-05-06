@@ -20,7 +20,7 @@ def login():
 
     # Get data
     userdata = execute(userdb, f'''
-    SELECT username, password FROM userdata
+    SELECT username, password FROM userdb
     WHERE username == '{username}'
     ''')[0] # Since there is only 1 user from the UNIQUE type of username, take the first item of the returned list (there is only 1 item anyway) #type:ignore
     
@@ -43,7 +43,7 @@ def signup():
 
     # Insert into database
     execute(userdb, f'''
-    INSERT INTO userdata (username, name, password) VALUES (
+    INSERT INTO userdb (username, name, password) VALUES (
     "{username}", "{name}", "{hashed_password}"
     )
     ''')

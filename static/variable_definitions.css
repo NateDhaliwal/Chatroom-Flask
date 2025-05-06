@@ -1,0 +1,10 @@
+:root {
+  /* Colours */
+  --primary: black; /* Main text */
+  --secondary: white; /* Background colour */
+  --tertiary: #0066ff; /* For links */
+
+  /* Other variables */
+  --btn-hover-scale: 1.1;
+  
+}

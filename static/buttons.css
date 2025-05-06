@@ -1,7 +1,7 @@
 .btn {
   border: 2px var(--primary) solid;
   border-radius: var(--btn-roundness);
-  trasition: var(--btn-bg-trans);
+  trasition: var(--btn-bg-trans-duration);
   color: var(--primary);
 }
 

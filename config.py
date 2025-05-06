@@ -1,7 +1,7 @@
 import sqlite3
 from sqlite3 import Cursor
 
-userdataconn = sqlite3.connect("userdata.sqlite")
+userdataconn = sqlite3.connect("userdb.sqlite")
 chatsconn = sqlite3.connect("chatdb.sqlite")
 
 userdb = userdataconn.cursor()

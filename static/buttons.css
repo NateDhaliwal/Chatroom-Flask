@@ -1,11 +1,12 @@
 .btn {
   border: 2px var(--primary) solid;
   border-radius: var(--btn-roundness);
-  trasition: var(--btn-bag-trans);
+  trasition: var(--btn-bg-trans);
   color: var(--primary);
 }
 
 .btn:hover {
   background-color: var(--primary);
   color: var(--secondary);
+  transform: var(--btn-hover-scale);
 }

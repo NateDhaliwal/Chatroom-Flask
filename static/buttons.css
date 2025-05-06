@@ -1,0 +1,11 @@
+.btn {
+  border: 2px var(--primary) solid;
+  border-radius: var(--btn-roundness);
+  trasition: var(--btn-bag-trans);
+  color: var(--primary);
+}
+
+.btn:hover {
+  background-color: var(--primary);
+  color: var(--secondary);
+}

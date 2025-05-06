@@ -1,0 +1,12 @@
+a {
+    text-decoration: none;
+    color: var(--links-colour);
+}
+
+a:hover {
+    color: var(--links-hover-colour);
+}
+
+a:visited {
+    color: var(--links-visited-colour);
+}

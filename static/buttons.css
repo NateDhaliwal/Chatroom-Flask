@@ -1,11 +1,12 @@
-.btn {
+.btn, input, select, option {
   border: 2px var(--primary) solid;
   border-radius: var(--btn-roundness);
-  trasition: var(--btn-bg-trans-duration);
+  transition: var(--btn-bg-trans-duration);
+  background-color: var(--secondary);
   color: var(--primary);
 }
 
-.btn:hover {
+.btn:hover, input:hover, select:hover option:hover {
   background-color: var(--primary);
   color: var(--secondary);
   transform: var(--btn-hover-scale);

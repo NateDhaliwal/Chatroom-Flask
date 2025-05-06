@@ -2,7 +2,9 @@
   /* Colours */
   --primary: black; /* Main text */
   --secondary: white; /* Background colour */
-  --tertiary: #0066ff; /* For links */
+  --links-colour: #0066ff; /* For links */
+  --links-hover-colour: grey;
+  --links-visited-colour: grey;
 
   /* Other variables */
   --btn-hover-scale: 1.1;

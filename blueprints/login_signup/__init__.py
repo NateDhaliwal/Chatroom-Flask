@@ -30,7 +30,7 @@ def login():
       # Password matches, login successful
       session['username'] = username
       return redirect('/home')
-  return render_template('login.html')
+  return render_template('login/login.html')
 
 @login_signup.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -50,4 +50,4 @@ def signup():
     
     session['username'] = username
     return redirect('/student/home')
-  return render_template('signup.html')
+  return render_template('signup/signup.html')

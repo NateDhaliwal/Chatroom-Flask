@@ -4,7 +4,7 @@ from blueprints.login_signup import login_signup
 
 app = Flask(__name__, static_folder='static')
 
-app.secret_key = "812d8731a4023237eebe5b41e385f678"
+app.secret_key = __import__("secrets").token_hex(16)
 
 # Register all Blueprints
 app.register_blueprint(login_signup)

@@ -10,3 +10,7 @@ a:hover {
 a:visited {
     color: var(--links-visited-colour);
 }
+
+.header-items, .footer-items { /* Target the ul, not the li */
+    list-style-type: none;
+}

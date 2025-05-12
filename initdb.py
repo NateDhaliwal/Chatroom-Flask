@@ -2,14 +2,17 @@ from config import chatdb, execute, userdb
 
 # Create databases, see format
 
-# chatmessages and chatdata are both TEXT types to store JSON data
+# chatmessages, members and chatdata are both TEXT types to store JSON data
+
+# chatmessages - 
 
 execute(chatdb, '''
 CREATE TABLE IF NOT EXISTS chatdb (
 id INTEGER PRIMARY KEY,
 chatname varchar(255) UNIQUE,
 chatmessages TEXT NOT NULL,
-chatdata TEXT NOT NULL
+chatdata TEXT NOT NULL,
+members TEXT NOT NULL
 )
 ''')
 

@@ -9,5 +9,5 @@
 .btn:hover, input:hover, select:hover option:hover {
   background-color: var(--primary);
   color: var(--secondary);
-  transform: var(--btn-hover-scale);
+  transform: scale(var(--btn-hover-scale));
 }

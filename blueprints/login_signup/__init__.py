@@ -29,7 +29,7 @@ def login():
     if check_password_hash(userdata[1], password):
       # Password matches, login successful
       session['username'] = username
-      return redirect('/home')
+      return redirect('/chats/all')
   return render_template('login/login.html')
 
 @login_signup.route("/signup", methods=['POST', 'GET'])
@@ -49,5 +49,5 @@ def signup():
     ''')
     
     session['username'] = username
-    return redirect('/student/home')
+    return redirect('/chats/all')
   return render_template('signup/signup.html')

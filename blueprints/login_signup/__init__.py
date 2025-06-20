@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, session
+from flask import Blueprint, redirect, render_template, request, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from config import execute, userdb
@@ -30,6 +30,8 @@ def login():
       # Password matches, login successful
       session['username'] = username
       return redirect('/chats/all')
+    else:
+      return redirect('/login'), flash("danger|Username or password incorrect")
   return render_template('login/login.html')
 
 @login_signup.route("/signup", methods=['POST', 'GET'])

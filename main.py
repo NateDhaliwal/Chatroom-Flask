@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 from blueprints.login_signup import login_signup
 
@@ -9,6 +10,9 @@ app.secret_key = __import__("secrets").token_hex(16)
 # Register all Blueprints
 app.register_blueprint(login_signup)
 
+sqlaldb = SQLAlchemy()
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlalchemy.db"
+sqlaldb.init_app(app)
 
 # Index BP
 @app.route('/')

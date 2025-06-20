@@ -3,7 +3,7 @@
   --primary: black; /* Main text */
   --secondary: white; /* Background colour */
   --links-colour: #0066ff; /* For links */
-  --links-hover-colour: grey;
+  --links-hover-colour: #3888ff;
   --links-visited-colour: grey;
 
   /* Other variables */

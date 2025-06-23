@@ -6,8 +6,14 @@
   --links-hover-colour: #3888ff;
   --links-visited-colour: grey;
 
+  --success:
+  --danger:
+
   /* Other variables */
   --btn-hover-scale: 1.1;
   --btn-roundness: 5px;
   --btn-bg-trans-duration: 0.2s;
+
+  /* Flashed messages */
+
 }

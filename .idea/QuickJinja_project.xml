@@ -3,7 +3,7 @@
   <component name="de.achimonline.quickjinja.settings.QuickJinjaProjectSettingsState">
     <option name="settings">
       <QuickJinjaProjectSettings>
-        <option name="templateFilePath" value="$PROJECT_DIR$/static/variable_definitions.css" />
+        <option name="templateFilePath" value="$PROJECT_DIR$/.replit" />
       </QuickJinjaProjectSettings>
     </option>
   </component>

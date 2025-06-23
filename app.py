@@ -1,6 +1,5 @@
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from models import db, migrate
 
 from views.login_signup import login_signup
 
@@ -11,10 +10,10 @@ app.secret_key = __import__("secrets").token_hex(16)
 # Register all Blueprints
 app.register_blueprint(login_signup)
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlalchemy.db"
+
+db.init_app(app)
+migrate.init_app(app, db)
 
 # Index BP
 @app.route('/')

@@ -10,15 +10,19 @@
 <body>
   {% include "components/header.html" %}
 
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-        {% set css_class = message.split('|')[0] %}
-        {% set message_content = message.split('|')[1] %}
-        <p class="flash {{ css_class }}">{{ message_content }}</p>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
+  <div class="flashed_messages">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          {% set css_class = message.split('|')[0] %}
+          {% set message_content = message.split('|')[1] %}
+          <div class="flashed_message">
+            <p class="flash {{ css_class }}">{{ message_content }}</p>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
   
   {% block content %}
   {% endblock %}

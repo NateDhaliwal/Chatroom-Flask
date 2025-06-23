@@ -1,7 +1,9 @@
 from flask import Blueprint, redirect, render_template, request, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from config import execute, userdb
+# from config import execute, userdb
+
+from models import User, db
 
 login_signup = Blueprint(
   'login_signup', 
@@ -18,12 +20,15 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
+    # Check if user exists
+    if not User.query.filter_by(username=username).first():
+      flash("danger|Account doesn't exist. Please <a href='{{ url_for(\"signup\") }}>create one</a>.")
+      return render_template('login/login.html')
+
     # Get data
-    userdata = execute(userdb, f'''
-    SELECT username, password FROM userdb
-    WHERE username == '{username}'
-    ''')[0] # Since there is only 1 user from the UNIQUE type of username, take the first item of the returned list (there is only 1 item anyway) #type:ignore
-    
+    hashed_password = User.query.filter_by(username=username).first().hashed_password
+    userdata = [username, hashed_password]
+
     # For this userdata tuple, item 0 is the username, and item 1 is the password (hashed)
     
     if check_password_hash(userdata[1], password):
@@ -31,7 +36,8 @@ def login():
       session['username'] = username
       return redirect('/chats/all')
     else:
-      return redirect('/login'), flash("danger|Username or password incorrect")
+      flash("danger|Username or password incorrect")
+      return render_template('login/login.html')
   return render_template('login/login.html')
 
 @login_signup.route("/signup", methods=['POST', 'GET'])
@@ -43,12 +49,17 @@ def signup():
     password = request.form['password']
     hashed_password = generate_password_hash(password, "scrypt", 16)
 
+    # Check if user exists
+    if User.query.filter_by(username=username).first():
+      flash('danger|Account already exists.')
+      return render_template('signup/signup.html')
+
+    # Create instance of User class with new user's data
+    new_user = User(username=username, name=name, hashed_password=hashed_password)
+
     # Insert into database
-    execute(userdb, f'''
-    INSERT INTO userdb (username, name, password) VALUES (
-    "{username}", "{name}", "{hashed_password}"
-    )
-    ''')
+    db.session.add(new_user)
+    db.session.commit()
     
     session['username'] = username
     return redirect('/chats/all')

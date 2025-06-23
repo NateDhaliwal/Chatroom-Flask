@@ -14,3 +14,25 @@ a:visited {
 .header-items, .footer-items { /* Target the ul, not the li */
     list-style-type: none;
 }
+
+.flash {
+    max-width: 40%;           /* limits width to 40% of container */
+    margin: 0 auto;           /* centers horizontally */
+    text-align: left;         /* optional: aligns text inside flash left instead of centered */
+    padding: 0.5em;             /* add some padding for spacing */
+    border-radius: 4px;       /* optional: rounded corners */
+    box-sizing: border-box;   /* include padding in width calculations */
+}
+
+
+.flash.success {
+    background-color: var(--success);
+    color: white;
+    border-left: 0.5em solid var(--flash-success-border-left);
+}
+
+.flash.danger {
+    background-color: var(--danger);
+    color: white;
+    border-left: 0.5em solid var(--flash-danger-border-left);
+}

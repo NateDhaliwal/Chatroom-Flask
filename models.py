@@ -48,6 +48,7 @@ class Chat(db.Model):
 
   chat_id = db.Column(db.Integer, primary_key=True)
   chat_name = db.Column(db.String(50), nullable=False, unique=True)
+  chat_description = db.Column(db.String(100))
   chat_owner = db.Column(db.String(15), db.ForeignKey("users.username"))
   chat_date_made = db.Column(db.Date, nullable=False)
 

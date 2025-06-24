@@ -15,6 +15,10 @@ login_signup = Blueprint(
 # Login + Signup BP
 @login_signup.route("/login", methods=['POST', 'GET'])
 def login():
+  # If user is already signed in
+  if 'username' in session:
+    return redirect("/chats/all")
+
   session['username'] = ''
   if request.method == 'POST':
     username = request.form['username']
@@ -22,7 +26,7 @@ def login():
 
     # Check if user exists
     if not User.query.filter_by(username=username).first():
-      flash("danger|Account doesn't exist. Please <a href='{{ url_for(\"signup\") }}>create one</a>.")
+      flash("danger|Account doesn't exist. Please create one.")
       return render_template('login/login.html')
 
     # Get data
@@ -34,6 +38,7 @@ def login():
     if check_password_hash(userdata[1], password):
       # Password matches, login successful
       session['username'] = username
+      flash("success|Log in successful!")
       return redirect('/chats/all')
     else:
       flash("danger|Username or password incorrect")

@@ -14,7 +14,7 @@ chats_all = Blueprint(
 def my_chats():
   # A list
   joined_chats = ChatMember.query.filter_by(username=session['username']).all()
-  return render_template("my_chats.html", joined_chats=joined_chats)
+  return render_template("my_chats/my_chats.html", joined_chats=joined_chats)
 
 @my_chats.route("/chats/all")
 def all_chats():
@@ -24,7 +24,7 @@ def all_chats():
     chat for chat in Chat.query.all()
     if all(chat.chat_name != joinedChat.chat_name for joinedChat in joined_chats)
   ]
-  return render_template("all_chats.html", joined_chats=joined_chats, unjoined_chats=unjoined_chats)
+  return render_template("all_chats/all_chats.html", joined_chats=joined_chats, unjoined_chats=unjoined_chats)
 
 
 # # Room chat BP (child of above above)

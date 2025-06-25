@@ -39,7 +39,7 @@ def login():
       # Password matches, login successful
       session['username'] = username
       flash("success|Log in successful!")
-      return redirect('/chats/all')
+      return redirect('/chats/my')
     else:
       flash("danger|Username or password incorrect")
       return render_template('login/login.html')
@@ -67,5 +67,5 @@ def signup():
     db.session.commit()
     
     session['username'] = username
-    return redirect('/chats/all')
+    return redirect('/chats/my')
   return render_template('signup/signup.html')

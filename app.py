@@ -3,6 +3,7 @@ from models import db, migrate
 
 from views.login_signup import login_signup
 from views.chats_parent import chats_parent
+from views.chats_all import chats_all
 
 app = Flask(__name__, static_folder='static')
 
@@ -11,6 +12,7 @@ app.secret_key = __import__("secrets").token_hex(16)
 # Register all Blueprints
 app.register_blueprint(login_signup)
 app.register_blueprint(chats_parent)
+app.register_blueprint(chats_all)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlalchemy.db"
 

@@ -38,6 +38,7 @@ migrate = Migrate()
 
 class User(db.Model):
   __tablename__ = "users"
+
   user_id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(15), nullable=False, unique=True)
   name = db.Column(db.String(30))
@@ -47,19 +48,19 @@ class Chat(db.Model):
   __tablename__ = "chats"
 
   chat_id = db.Column(db.Integer, primary_key=True)
-  chat_name = db.Column(db.String(50), nullable=False, unique=True)
+  chat_name = db.Column(db.String(20), nullable=False, unique=True)
   chat_description = db.Column(db.String(100))
   chat_owner = db.Column(db.String(15), db.ForeignKey("users.username"))
   chat_date_made = db.Column(db.Date, nullable=False)
 
-class Message(db.Model):
+class ChatMessage(db.Model):
   __tablename__ = "chat_messages"
 
   message_id = db.Column(db.Integer, primary_key=True)
   message_poster = db.Column(db.String(15), db.ForeignKey("users.username"))
   message_content = db.Column(db.Text, nullable=False)
-  message_datetime = db.Column(db.DateTime, nullable=False)
-  belongs_to_chat = db.Column(db.String(50), db.ForeignKey("chats.chat_name"))
+  message_date_made = db.Column(db.DateTime, nullable=False)
+  belongs_to_chat = db.Column(db.String(20), db.ForeignKey("chats.chat_name"))
 
 class ChatMember(db.Model):
   __tablename__ = 'chat_members'

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<h1>Chat | {{ chat.chat_name }}</h1>
+
+<div id="messages">
+    {% for chat_message in chat_message %}
+        <div id="message">
+            <p id="message_details">
+                <b>{{ chat_message.message_poster }}</b> |
+                {{ chat_message.message_date_made }}
+            </p>
+            <br>
+            <p id="message_content">
+                {{ chat_message.message_content }}
+            </p>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

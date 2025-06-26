@@ -4,5 +4,20 @@
 
 {% block content %}
 
+<h1>All chats</h1>
+
+<div id="all-chats">
+    {% for chat in all_chats_list %}
+        <div class="card" id="chat">
+            <h3 class="chat_name">
+                {{ chat.chat_name }}
+                {% if chat.chat_name in joined_chats_names %}
+                    <span id="joined-tick"><i class="fa-solid fa-circle-check"></i></span>
+                {% endif %}
+            </h3>
+            <p class="chat_description">{{ chat.chat_description }}</p>
+        </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

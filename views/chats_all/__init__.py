@@ -16,15 +16,14 @@ def my_chats():
   joined_chats = ChatMember.query.filter_by(username=session['username']).all()
   return render_template("my_chats/my_chats.html", joined_chats=joined_chats)
 
-@my_chats.route("/chats/all")
+@login_required
+@chats_all.route("/chats/all")
 def all_chats():
   # A list
-  joined_chats = ChatMember.query.filter_by(username=session['username']).all()
-  unjoined_chats = [
-    chat for chat in Chat.query.all()
-    if all(chat.chat_name != joinedChat.chat_name for joinedChat in joined_chats)
-  ]
-  return render_template("all_chats/all_chats.html", joined_chats=joined_chats, unjoined_chats=unjoined_chats)
+  joined_chats_names = ChatMember.query.filter_by(username=session['username']).chat_name.all()
+
+  all_chats_list = Chat.query.all()
+  return render_template("all_chats/all_chats.html", joined_chats_names=joined_chats_names, all_chats=all_chats_list)
 
 
 # # Room chat BP (child of above above)

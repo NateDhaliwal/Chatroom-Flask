@@ -8,9 +8,9 @@
     function showCreateChatModal() {
         const createChatModal = document.getElementById("create-chat-modal");
         if (createChatModal.style.display == "none") {
-            createChat.style.display = "block";
+            createChatModal.style.display = "block";
         } else {
-            createChat.style.display = "none";
+            createChatModal.style.display = "none";
         }
     }
 </script>
@@ -19,7 +19,8 @@
 
 <button onclick="showCreateChatModal()"><i class="fa-solid fa-plus"></i> Create chat</button>
 
-<dialog id="create-chat-modal" style="display:none;">
+<dialog id="create-chat-modal" class="modal" style="display:none;">
+    <h2>Create chat</h2>
     <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
         <label for="chat_name" id="chat_name">
             <input name="chat_name" type="text" maxlength="20" placeholder="Enter the chat name">
@@ -33,14 +34,18 @@
     </form>
 </dialog>
 
-<div id="joined-chats">
-    {% for joined_chat in joined_chats %}
-        <div class="card" id="chat">
-            <h3 class="chat_name">{{ joined_chat.chat_name}}</h3>
-            <p class="chat_description">{{ joined_chat.chat_description }}</p>
-        </div>
-    {% endfor %}
-</div>
+{% if len(all_chats_list) != 0 %}
+    <div id="joined-chats">
+        {% for joined_chat in joined_chats %}
+            <div class="card" id="chat">
+                <h3 class="chat_name">{{ joined_chat.chat_name}}</h3>
+                <p class="chat_description">{{ joined_chat.chat_description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No chats yet. Join one to get started!</p>
+{% endif %}
 
 <p><a href="{{ url_for('chats_all.all_chats') }}">View all chats <i class="fa-solid fa-arrow-right"></i></a></p>
 

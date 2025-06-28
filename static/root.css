@@ -36,3 +36,13 @@ a:visited {
     color: white;
     border-left: 0.5em solid var(--flash-danger-border-left);
 }
+
+.modal {
+    z-index: var(--modal-z-index);
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}

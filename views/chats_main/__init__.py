@@ -1,9 +1,7 @@
-from flask import render_template, session, redirect, flash, Blueprint, request
-from models import Chat, ChatMember, db
+from flask import render_template, session, redirect, flash, Blueprint, request, url_for
+from models import Chat, ChatMember, ChatMessage, db
 from utils import login_required
 from datetime import datetime
-
-from views.chats_parent import chats_parent
 
 chats_main = Blueprint(
   'chats_main',
@@ -40,3 +38,13 @@ def create_chat():
 
     db.session.add(new_member)
     db.session.commit()
+
+    return redirect(url_for('chats_main.chat_page', chat_name=chat_name))
+
+@login_required
+@chats_main.route('/chat/<string:chat_name>')
+def chat_page(chat_name):
+    chat = Chat.query.filter_by(chat_name=chat_name)
+    chat_members = ChatMember.query.filter_by(chat_name=chat_name).all()
+    chat_messages = ChatMessage.query.filter_by(belongs_to_chat=chat_name).all()
+    return render_template('chat_page/chat_page.html', chat=chat, chat_members=chat_members, chat_messages=chat_messages)

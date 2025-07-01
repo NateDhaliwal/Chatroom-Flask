@@ -12,11 +12,8 @@ chats_all = Blueprint(
 @login_required
 @chats_all.route('/chats/my')
 def my_chats():
-  print(session['username'])
   # A list
   joined_chats = ChatMember.query.filter_by(username=session['username']).all()
-  print('my')
-  print(len(joined_chats))
   return render_template("my_chats/my_chats.html", len=len, joined_chats=joined_chats)
 
 @login_required
@@ -25,6 +22,4 @@ def all_chats():
   # A list
   joined_chats_names = [chatname.chat_name for chatname in ChatMember.query.filter_by(username=session['username']).all()]
   all_chats_list = Chat.query.all()
-  print('all')
-  print(len(joined_chats_names))
   return render_template("all_chats/all_chats.html", len=len, joined_chats_names=joined_chats_names, all_chats_list=all_chats_list)

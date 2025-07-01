@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, session, flash
+from flask import Blueprint, redirect, render_template, request, session, flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # from config import execute, userdb
@@ -15,11 +15,12 @@ login_signup = Blueprint(
 # Login + Signup BP
 @login_signup.route("/login", methods=['POST', 'GET'])
 def login():
+  print(session.keys())
   # If user is already signed in
   if 'username' in session:
-    return redirect("/chats/all")
+    print(session['username'])
+    return redirect(url_for('chats_all.my_chats'))
 
-  session['username'] = ''
   if request.method == 'POST':
     username = request.form['username']
     password = request.form['password']
@@ -38,8 +39,9 @@ def login():
     if check_password_hash(userdata[1], password):
       # Password matches, login successful
       session['username'] = username
+      print(session.keys())
       flash("success|Log in successful!")
-      return redirect('/chats/my')
+      return redirect(url_for('chats_all.my_chats'))
     else:
       flash("danger|Username or password incorrect")
       return render_template('login/login.html')
@@ -47,7 +49,6 @@ def login():
 
 @login_signup.route("/signup", methods=['POST', 'GET'])
 def signup():
-  session['username'] = ''
   if request.method == 'POST':
     username = request.form['username']
     name = request.form['name'] if not None else username
@@ -67,5 +68,5 @@ def signup():
     db.session.commit()
     
     session['username'] = username
-    return redirect('/chats/my')
+    return redirect(url_for('chats_all.my_chats'))
   return render_template('signup/signup.html')

@@ -17,4 +17,7 @@
   --btn-bg-trans-duration: 0.2s;
 
   --modal-z-index: 10;
+
+  --card-roundness: 5px;
+  --card-border-thickness: 2px;
 }

@@ -1,3 +1,15 @@
 body {
+    display: flex;
+    flex-direction: column;
     text-align: center;
+}
+
+.header-items, .footer-items { /* Target the ul, not the li */
+    display: flex;
+    list-style-type: none;
+    flex-direction: row;
+}
+
+.header-items > *, .footer-items > * {
+    flex-grow: 1;
 }

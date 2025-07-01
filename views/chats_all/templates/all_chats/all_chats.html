@@ -5,8 +5,7 @@
 {% block content %}
 
 <h1>All chats</h1>
-
-{% if len(all_chats_list) != 0 %}
+{% if len(all_chats_list) > 0 %}
     <div id="all-chats">
         {% for chat in all_chats_list %}
             <div class="card" id="chat">

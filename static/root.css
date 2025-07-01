@@ -11,10 +11,6 @@ a:visited {
     color: var(--links-visited-colour);
 }
 
-.header-items, .footer-items { /* Target the ul, not the li */
-    list-style-type: none;
-}
-
 .flash {
     max-width: 40%;           /* limits width to 40% of container */
     margin: 0 auto;           /* centers horizontally */
@@ -45,4 +41,10 @@ a:visited {
     top: 50%;
     left:50%;
     transform: translate(-50%, -50%);
+}
+
+.card {
+    border: var(--card-border-thickness) solid var(--links-colour);
+    border-radius: var(--card-roundness);
+    padding: 1em;
 }

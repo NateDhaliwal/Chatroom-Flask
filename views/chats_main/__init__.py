@@ -1,7 +1,9 @@
-from flask import render_template, session, redirect, flash, Blueprint, request, url_for
+from datetime import datetime
+
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+
 from models import Chat, ChatMember, ChatMessage, db
 from utils import login_required
-from datetime import datetime
 
 chats_main = Blueprint(
   'chats_main',
@@ -44,7 +46,7 @@ def create_chat():
 @login_required
 @chats_main.route('/chat/<string:chat_name>')
 def chat_page(chat_name):
-    chat = Chat.query.filter_by(chat_name=chat_name)
+    chat = Chat.query.filter_by(chat_name=chat_name).first()
     chat_members = ChatMember.query.filter_by(chat_name=chat_name).all()
     chat_messages = ChatMessage.query.filter_by(belongs_to_chat=chat_name).all()
     return render_template('chat_page/chat_page.html', chat=chat, chat_members=chat_members, chat_messages=chat_messages)

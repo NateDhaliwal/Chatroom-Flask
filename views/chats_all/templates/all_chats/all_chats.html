@@ -10,7 +10,7 @@
         {% for chat in all_chats_list %}
             <div class="card" id="chat">
                 <h3 class="chat_name">
-                    {{ chat.chat_name }}
+                    <a href="{{ url_for('chats_main.chat_page', chat_name=chat.chat_name) }}">{{ chat.chat_name }}</a>
                     {% if chat.chat_name in joined_chats_names %}
                         <span id="joined-tick"><i class="fa-solid fa-circle-check"></i></span>
                     {% endif %}

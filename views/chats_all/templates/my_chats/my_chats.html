@@ -34,7 +34,7 @@
     </form>
 </dialog>
 
-{% if len(all_chats_list) != 0 %}
+{% if len(joined_chats_list) > 0 %}
     <div id="joined-chats">
         {% for joined_chat in joined_chats %}
             <div class="card" id="chat">

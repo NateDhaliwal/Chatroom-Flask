@@ -1,7 +1,7 @@
-from config import chatdb, execute, userdb
+#from config import chatdb, execute, userdb
 #from sqlalchemy.dialects.sqlite import json
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -50,21 +50,21 @@ class Chat(db.Model):
   chat_id = db.Column(db.Integer, primary_key=True)
   chat_name = db.Column(db.String(20), nullable=False, unique=True)
   chat_description = db.Column(db.String(100))
-  chat_owner = db.Column(db.String(15), db.ForeignKey("users.username"))
+  chat_owner = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
   chat_date_made = db.Column(db.Date, nullable=False)
 
 class ChatMessage(db.Model):
   __tablename__ = "chat_messages"
 
   message_id = db.Column(db.Integer, primary_key=True)
-  message_poster = db.Column(db.String(15), db.ForeignKey("users.username"))
+  message_poster = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
   message_content = db.Column(db.Text, nullable=False)
   message_date_made = db.Column(db.DateTime, nullable=False)
-  belongs_to_chat = db.Column(db.String(20), db.ForeignKey("chats.chat_name"))
+  belongs_to_chat = db.Column(db.Integer, db.ForeignKey("chats.chat_id"), nullable=False)
 
 class ChatMember(db.Model):
   __tablename__ = 'chat_members'
 
   chat_member_id = db.Column(db.Integer, primary_key=True)
-  chat_name = db.Column(db.String(50), db.ForeignKey('chats.chat_name'), nullable=False)
-  username = db.Column(db.String(15), db.ForeignKey('users.username'), nullable=False)
+  chat_name = db.Column(db.Integer, db.ForeignKey('chats.chat_id'), nullable=False)
+  username = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)

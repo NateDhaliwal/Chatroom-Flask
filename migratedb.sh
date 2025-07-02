@@ -2,6 +2,8 @@
 
 migrate_message="$1"
 
+flask db init
+
 if [ -z "$migrate_message" ]; then
   flask db migrate
 else

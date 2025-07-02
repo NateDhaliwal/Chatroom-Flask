@@ -34,11 +34,17 @@
     </form>
 </dialog>
 
-{% if len(joined_chats_list) > 0 %}
+<br>
+
+{% if len(joined_chats) > 0 %}
     <div id="joined-chats">
         {% for joined_chat in joined_chats %}
             <div class="card" id="chat">
-                <h3 class="chat_name">{{ joined_chat.chat_name }}</h3>
+                <h3 class="chat_name">
+                    <a href="{{ url_for('chats_main.chat_page', chat_name=joined_chat.chat_name)}}">
+                    {{ joined_chat.chat_name }}
+                    </a>
+                </h3>
                 <p class="chat_description">{{ joined_chat.chat_description }}</p>
             </div>
         {% endfor %}

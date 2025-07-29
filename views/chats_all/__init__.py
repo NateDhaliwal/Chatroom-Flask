@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, flash, Blueprint
 from models import Chat, ChatMember
-from utils import login_required
+from flask_login import login_required
 
 chats_all = Blueprint(
   'chats_all',
@@ -9,8 +9,8 @@ chats_all = Blueprint(
   template_folder='templates'
 )
 
-@login_required
 @chats_all.route('/chats/my')
+@login_required
 def my_chats():
   print(session['username'])
   # A list

@@ -2,6 +2,7 @@
 #from sqlalchemy.dialects.sqlite import json
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -36,7 +37,7 @@ migrate = Migrate()
 # ''')
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
   __tablename__ = "users"
 
   user_id = db.Column(db.Integer, primary_key=True)

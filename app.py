@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_login import LoginManager
 from models import db, migrate
 
 from views.login_signup import login_signup
@@ -8,7 +9,7 @@ from views.chats_main import chats_main
 
 app = Flask(__name__, static_folder='static')
 
-app.secret_key = __import__("secrets").token_hex(16)
+app.secret_key = "a very secret key" # __import__("secrets").token_hex(16)
 
 # Register all Blueprints
 app.register_blueprint(login_signup)
@@ -18,8 +19,11 @@ app.register_blueprint(chats_main)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlalchemy.db"
 
+login_manager = LoginManager()
+
 db.init_app(app)
 migrate.init_app(app, db)
+login_manager.init_app(app)
 
 # Index BP
 @app.route('/')

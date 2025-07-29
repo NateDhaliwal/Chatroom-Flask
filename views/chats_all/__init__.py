@@ -24,9 +24,9 @@ def my_chats():
   print(len(joined_chats))
   return render_template("my_chats/my_chats.html", len=len, joined_chats=joined_chats)
 
-@login_required
-@chats_all.route("/chats/all")
-def all_chats():
+@login_all.route("/chats/all")
+def al
+@login_requiredl_chats():
   # A list
   joined_chats_names = [
     chatname.chat_name for chatname in ChatMember.query.filter_by(username=session['username']).all()

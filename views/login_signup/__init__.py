@@ -1,8 +1,8 @@
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
-# from config import execute, userdb
 from models import User, db
+from forms import LoginForm
 
 login_signup = Blueprint(
   'login_signup', 
@@ -14,7 +14,7 @@ login_signup = Blueprint(
 # Login + Signup BP
 @login_signup.route("/login", methods=['POST', 'GET'])
 def login():
-  print(session.keys())
+  login_form = LoginForm()
   # If user is already signed in
   if 'username' in session:
     print(session['username'])

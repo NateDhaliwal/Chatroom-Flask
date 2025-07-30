@@ -4,8 +4,11 @@ block content %}
 <h1>Login to Chatroom!</h1>
 
 <form method="post">
-  {{ form.csrf_token }} {{ form.username }} {{ form.password }} {{ form.submit
-  }}
+  {{ form.csrf_token }}
+  <label for="username" id="username">{{ form.username }}</label>
+  <br />
+  <label for="password" id="password">{{ form.password }}</label>
+  <br />
   <button class="btn btn-primary" type="submit">Login</button>
 </form>
 

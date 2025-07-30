@@ -24,7 +24,7 @@ def my_chats():
   print(len(joined_chats))
   return render_template("my_chats/my_chats.html", len=len, joined_chats=joined_chats)
 
-@login_all.route("/chats/all")
+@chats_all.route("/chats/all")
 @login_required
 def all_chats():
   joined_chats_names = [

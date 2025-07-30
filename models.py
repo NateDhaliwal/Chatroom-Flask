@@ -43,7 +43,7 @@ class User(db.Model, UserMixin):
   user_id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(15), nullable=False, unique=True)
   name = db.Column(db.String(30))
-  hashed_password = db.Column(db.String(30), nullable=False)
+  hashed_password = db.Column(db.String, nullable=False)
   
 class Chat(db.Model):
   __tablename__ = "chats"

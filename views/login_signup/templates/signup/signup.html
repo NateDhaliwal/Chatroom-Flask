@@ -3,7 +3,7 @@ block content %}
 
 <h1>Signup to Chatroom!</h1>
 
-<form method="post">
+<form method="post" action="/signup">
   {{ form.csrf_token }}
   <label for="username" id="username">Username: {{ form.username }}</label>
   <br />

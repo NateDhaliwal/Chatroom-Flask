@@ -62,7 +62,8 @@ def signup():
       return render_template('signup/signup.html', form=signup_form)
 
     # Create instance of User class with new user's data
-    new_user = User(username=username, name=name, hashed_password=hashed_password)
+    user_id = len(User.query.all()) + 1
+    new_user = User(user_id=user_id, username=username, name=name, hashed_password=hashed_password)
 
     # Insert into database
     db.session.add(new_user)

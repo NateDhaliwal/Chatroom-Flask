@@ -1,58 +1,63 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %}My Chats{% endblock %} {% block
+content %}
 
-{% block title %}My Chats{% endblock %}
-
-{% block content %}
-
+<!--
 <script>
-    function showCreateChatModal() {
-        const createChatModal = document.getElementById("create-chat-modal");
-        if (createChatModal.style.display == "none") {
-            createChatModal.style.display = "block";
-        } else {
-            createChatModal.style.display = "none";
-        }
+  function showCreateChatModal() {
+    const createChatModal = document.getElementById("create-chat-modal");
+    if (createChatModal.style.display == "none") {
+      createChatModal.style.display = "block";
+    } else {
+      createChatModal.style.display = "none";
     }
+  }
 </script>
+-->
 
 <h1>My Chats</h1>
 
-<button onclick="showCreateChatModal()"><i class="fa-solid fa-plus"></i> Create chat</button>
+<button popovertarget="create-chat-modal">
+  <i class="fa-solid fa-plus"></i> Create chat
+</button>
 
-<dialog id="create-chat-modal" class="modal" style="display:none;">
-    <h2>Create chat</h2>
-    <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
-        <label for="chat_name" id="chat_name">
-            <input name="chat_name" type="text" maxlength="20" placeholder="Enter the chat name">
-        </label>
-        <br>
-        <label for="chat_description" id="chat_description">
-            <textarea name="chat_description" maxlength="100" placeholder="Enter the chat description" required></textarea>
-        </label>
-        <br>
-        <button type="submit"><i class="fa-solid fa-plus"></i>Create chat</button>
-    </form>
+<dialog id="create-chat-modal" class="modal" popover>
+  <h2>Create chat</h2>
+  <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
+    <label for="chat_name" id="chat_name">Chat name: {{ form.name }}</label>
+    <br />
+    <label for="chat_description" id="chat_description"
+      >Chat description (optional): {{ form.description }}</label
+    >
+    <br />
+    <button type="submit"><i class="fa-solid fa-plus"></i>Create chat</button>
+  </form>
 </dialog>
 
-<br>
+<br />
 
 {% if len(joined_chats) > 0 %}
-    <div id="joined-chats">
-        {% for joined_chat in joined_chats %}
-            <div class="card" id="chat">
-                <h3 class="chat_name">
-                    <a href="{{ url_for('chats_main.chat_page', chat_name=joined_chat.chat_name)}}">
-                    {{ joined_chat.chat_name }}
-                    </a>
-                </h3>
-                <p class="chat_description">{{ joined_chat.chat_description }}</p>
-            </div>
-        {% endfor %}
-    </div>
+<div id="joined-chats">
+  {% for joined_chat in joined_chats %}
+  <div class="card" id="chat">
+    <h3 class="chat_name">
+      <a
+        href="{{ url_for('chats_main.chat_page', chat_name=joined_chat.chat_name)}}"
+      >
+        {{ joined_chat.chat_name }}
+      </a>
+    </h3>
+    <p class="chat_description">{{ joined_chat.chat_description }}</p>
+  </div>
+  {% endfor %}
+</div>
 {% else %}
-    <p>No chats yet. Join one to get started!</p>
+<p>No chats yet. Join one to get started!</p>
 {% endif %}
 
-<p><a href="{{ url_for('chats_all.all_chats') }}">View all chats <i class="fa-solid fa-arrow-right"></i></a></p>
+<p>
+  <a href="{{ url_for('chats_all.all_chats') }}"
+    >View all chats <i class="fa-solid fa-arrow-right"></i
+  ></a>
+</p>
 
 {% endblock %}

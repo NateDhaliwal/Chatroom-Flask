@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_login import LoginManager
-from models import db, migrate
+from models import db, migrate, User
 
 from views.login_signup import login_signup
 from views.chats_parent import chats_parent
@@ -25,11 +25,11 @@ db.init_app(app)
 migrate.init_app(app, db)
 login_manager.init_app(app)
 
-login_manager.login_view = "views.login_signup.login"
+login_manager.login_view = "login_signup.login"
 
 @login_manager.user_loader
 def load_user(user_id):
-  return User.get(user_id)
+  return User.query.filter_by(id=user_id).first()
 
 # Index BP
 @app.route('/')

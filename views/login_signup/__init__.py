@@ -30,7 +30,7 @@ def login():
     # Check if user exists
     if not User.query.filter_by(username=username).first():
       flash("danger|Account doesn't exist. Please create one.")
-      return render_template('login/login.html')
+      return render_template('login/login.html', form=login_form)
 
     # Get data
     hashed_password = User.query.filter_by(username=username).first().hashed_password

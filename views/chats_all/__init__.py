@@ -1,6 +1,7 @@
-from flask import render_template, session, redirect, flash, Blueprint
+from flask import render_template, redirect, flash, Blueprint
 from models import Chat, ChatMember
-from flask_login import login_required
+from forms import CreateChatForm
+from flask_login import login_required, current_user
 
 chats_all = Blueprint(
   'chats_all',
@@ -12,9 +13,9 @@ chats_all = Blueprint(
 @chats_all.route('/chats/my')
 @login_required
 def my_chats():
-  print(session['username'])
+  form = CreateChatForm()
   # A list
-  joined_chats_name = [chatname.chat_name for chatname in ChatMember.query.filter_by(username=session['username']).all()]
+  joined_chats_name = [chatname.chat_name for chatname in ChatMember.query.filter_by(username=current_user.username).all()]
   joined_chats = []
   for joinedchat in joined_chats_name:
     chat = Chat.query.filter_by(chat_name=joinedchat).first()
@@ -22,13 +23,13 @@ def my_chats():
     joined_chats.append(chat)
     
   print(len(joined_chats))
-  return render_template("my_chats/my_chats.html", len=len, joined_chats=joined_chats)
+  return render_template("my_chats/my_chats.html", len=len, joined_chats=joined_chats, form=form)
 
 @chats_all.route("/chats/all")
 @login_required
 def all_chats():
   joined_chats_names = [
-    chatname.chat_name for chatname in ChatMember.query.filter_by(username=session['username']).all()
+    chatname.chat_name for chatname in ChatMember.query.filter_by(username=current_user.username).all()
   ]
   all_chats_list = Chat.query.all()
   return render_template(

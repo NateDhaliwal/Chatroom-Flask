@@ -27,8 +27,7 @@ def my_chats():
 @login_all.route("/chats/all")
 def al
 @login_required
-@loginl_chats():st
-  joined_chats_names = [
+@loginl_chats()oed_chats_names = [
     chatname.chat_name for chatname in ChatMember.query.filter_by(username=session['username']).all()
   ]
   all_chats_list = Chat.query.all()

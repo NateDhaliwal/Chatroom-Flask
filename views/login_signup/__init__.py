@@ -4,6 +4,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models import User, db
 from forms import LoginForm
 
+from flask_login import login_user, logout_user
+
 login_signup = Blueprint(
   'login_signup', 
   __name__, 
@@ -37,13 +39,12 @@ def login():
     
     if check_password_hash(userdata[1], password):
       # Password matches, login successful
-      session['username'] = username
-      print(session.keys())
+      login_user(User.query.filter_by(username=username).first())
       flash("success|Log in successful!")
       return redirect(url_for('chats_all.my_chats'))
     else:
       flash("danger|Username or password incorrect")
-      return render_template('login/login.html')
+      return render_template('login/login.html', form=login_form)
   return render_template('login/login.html', form=login_form)
 
 @login_signup.route("/signup", methods=['POST', 'GET'])

@@ -25,7 +25,6 @@ def my_chats():
   return render_template("my_chats/my_chats.html", len=len, joined_chats=joined_chats)
 
 @login_all.route("/chats/all")
-def al
 @login_required
 @loginl_::
   # list

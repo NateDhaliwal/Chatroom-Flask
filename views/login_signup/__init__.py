@@ -63,7 +63,7 @@ def signup():
 
     # Create instance of User class with new user's data
     user_id = len(User.query.all()) + 1
-    new_user = User(user_id=user_id, username=username, name=name, hashed_password=hashed_password)
+    new_user = User(id=user_id, username=username, name=name, hashed_password=hashed_password)
 
     # Insert into database
     db.session.add(new_user)

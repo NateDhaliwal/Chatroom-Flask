@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 
 from models import Chat, ChatMember, ChatMessage, db
+from forms import CreateChatForm
 from flask_login import login_required
 
 chats_main = Blueprint(
@@ -15,32 +16,37 @@ chats_main = Blueprint(
 @chats_main.route('/create-chat', methods=['POST'])
 @login_required
 def create_chat():
-    # Fetch form fields
-    chat_name = request.form.get('chat_name')
-    chat_description = request.form.get('chat_description')
-    chat_owner = session['username']
-    chat_date_made = datetime.now()
+    form = CreateChatForm()
+    if form.validate_on_submit():
+        # Fetch form fields
+        chat_name = form.name.data
+        chat_description = form.description.data
+        chat_owner = current_user.username
+        
+        chat_id = len(Chat.query.all()) + 1
+        # Create chat
+        new_chat = Chat(
+            id=chat_id,
+            chat_name=chat_name,
+            chat_description=chat_description,
+            chat_owner=chat_owner
+        )
 
-    # Create chat
-    new_chat = Chat(
-        chat_name=chat_name,
-        chat_description=chat_description,
-        chat_owner=chat_owner,
-        chat_date_made=chat_date_made
-    )
+        db.session.add(new_chat)
+        db.session.commit()
+        
+        chat_member_id = len(ChatMember.query.all()) + 1
+        # Create member
+        new_member = ChatMember(
+            id=chat_member_id,
+            chat_id=chat_id,
+            username=chat_owner
+        )
 
-    db.session.add(new_chat)
-    db.session.commit()
+        db.session.add(new_member)
+        db.session.commit()
 
-    # Create member
-    new_member = ChatMember(
-        chat_name=chat_name,
-        username=chat_owner
-    )
-
-    db.session.add(new_member)
-    db.session.commit()
-
+        return redirect(url_for('chats_main.chat_page', chat_name=chat_name))
     return redirect(url_for('chats_main.chat_page', chat_name=chat_name))
 
 @chats_main.route('/chat/<string:chat_name>')

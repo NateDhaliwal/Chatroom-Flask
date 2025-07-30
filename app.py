@@ -25,6 +25,8 @@ db.init_app(app)
 migrate.init_app(app, db)
 login_manager.init_app(app)
 
+login_manager.login_view = "views.login_signup.login"
+
 @login_manager.user_loader
 def load_user(user_id):
   return User.get(user_id)

@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, request, session,
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from models import User, db
-from forms import LoginForm
+from forms import LoginForm, SignupForm
 
 from flask_login import login_user, logout_user
 
@@ -23,8 +23,9 @@ def login():
     return redirect(url_for('chats_all.my_chats'))
 
   if login_form.validate_on_submit():
-    username = request.form['username']
-    password = request.form['password']
+    username = login_form.username.data
+    password = login_form.password.data
+    remember_me = login_form.remember_me.data
 
     # Check if user exists
     if not User.query.filter_by(username=username).first():
@@ -33,13 +34,11 @@ def login():
 
     # Get data
     hashed_password = User.query.filter_by(username=username).first().hashed_password
-    userdata = [username, hashed_password]
-
-    # For this userdata tuple, item 0 is the username, and item 1 is the password (hashed)
     
-    if check_password_hash(userdata[1], password):
+    if check_password_hash(hashed_password, password):
       # Password matches, login successful
-      login_user(User.query.filter_by(username=username).first())
+      user = User.query.filter_by(username=username).first()
+      login_user(user, remember=remember_me)
       flash("success|Log in successful!")
       return redirect(url_for('chats_all.my_chats'))
     else:
@@ -49,16 +48,18 @@ def login():
 
 @login_signup.route("/signup", methods=['POST', 'GET'])
 def signup():
-  if request.method == 'POST':
-    username = request.form['username']
-    name = request.form['name'] if not None else username
-    password = request.form['password']
+  signup_form = SignupForm()
+  if signup_form.validate_on_submit():
+    username = signup_form.username.data
+    name = signup_form.name.data if not None else username
+    password = signup_form.password.data
     hashed_password = generate_password_hash(password, "scrypt", 16)
+    remember_me = signup_form.remember_me.data
 
     # Check if user exists
     if User.query.filter_by(username=username).first():
       flash('danger|Account already exists.')
-      return render_template('signup/signup.html')
+      return render_template('signup/signup.html', form=signup_form)
 
     # Create instance of User class with new user's data
     new_user = User(username=username, name=name, hashed_password=hashed_password)
@@ -66,7 +67,9 @@ def signup():
     # Insert into database
     db.session.add(new_user)
     db.session.commit()
+
+    login_user(new_user, remember=remember_me)
     
     session['username'] = username
     return redirect(url_for('chats_all.my_chats'))
-  return render_template('signup/signup.html')
+  return render_template('signup/signup.html', form=signup_form)

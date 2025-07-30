@@ -5,9 +5,13 @@ block content %}
 
 <form method="post">
   {{ form.csrf_token }}
-  <label for="username" id="username">{{ form.username }}</label>
+  <label for="username" id="username">Username: {{ form.username }}</label>
   <br />
-  <label for="password" id="password">{{ form.password }}</label>
+  <label for="password" id="password">Password: {{ form.password }}</label>
+  <br />
+  <label for="remember_me" id="remember_me"
+    >Remember me {{ form.remember_me }}</label
+  >
   <br />
   <button class="btn btn-primary" type="submit">Login</button>
 </form>

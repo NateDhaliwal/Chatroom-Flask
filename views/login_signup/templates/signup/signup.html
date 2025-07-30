@@ -1,28 +1,21 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Signup | Chatroom{% endblock %} {%
+block content %}
 
-{% block title %}Signup | Chatroom{% endblock %}
+<h1>Signup to Chatroom!</h1>
 
-{% block content %}
-
-<h1>Login to Chatroom!</h1>
-
-<form action="/signup" method="post">
-    <label for="username">
-        Username:
-        <input name="username" type="text"  maxlength="15" required />
-    </label>
-    <br />
-    <label for="name">
-        Name (optional):
-        <input name="name" type="text" maxlength="30" />
-    </label>
-    <br />
-    <label for="password">
-        Password:
-        <input name="password" type="password" maxlength="30" required />
-    </label>
-    <br />
-    <button class="btn btn-primary" type="submit">Signup</button>
+<form method="post">
+  {{ form.csrf_token }}
+  <label for="username" id="username">Username: {{ form.username }}</label>
+  <br />
+  <label for="name" id="name">Name (optional): {{ form.name }}</label>
+  <br />
+  <label for="password" id="password">Password: {{ form.password }}</label>
+  <br />
+  <label for="remember_me" id="remember_me"
+    >Remember me {{ form.remember_me }}</label
+  >
+  <br />
+  <button class="btn btn-primary" type="submit">Signup</button>
 </form>
 
 {% endblock %}

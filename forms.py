@@ -8,4 +8,5 @@ class LoginForm(FlaskForm):
 
 class SignupForm(FlaskForm):
     username = StringField("username", validators=[DataRequired(message="Username cannot be blank"), Length(min=1, max=15, message="Username must be be between 1 and 15 characters long")])
-    password = PasswordField
+    password = PasswordField("password", validators=[DataRequired(message="Password cannot be blank"), Length(min=8, message="Password to short (minimum 8 characters)")])
+    name = StringField("name", validators=[Length(max=30, message="Name cannot exceed 30 characters")])

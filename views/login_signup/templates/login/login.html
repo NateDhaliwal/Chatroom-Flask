@@ -1,22 +1,11 @@
-{% extends "base.html" %}
-
-{% block title %}Login | Chatroom{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Login | Chatroom{% endblock %} {%
+block content %}
 
 <h1>Login to Chatroom!</h1>
 
-<form action="/login" method="post">
-  <label for="username">
-    Username:
-    <input name="username" type="text"  maxlength="15" required />
-  </label>
-  <br />
-  <label for="password">
-    Password:
-    <input name="password" type="password" maxlength="30" required />
-  </label>
-  <br />
+<form method="post">
+  {{ form.csrf_token }} {{ form.username }} {{ form.password }} {{ form.submit
+  }}
   <button class="btn btn-primary" type="submit">Login</button>
 </form>
 

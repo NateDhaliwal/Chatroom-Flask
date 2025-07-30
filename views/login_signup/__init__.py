@@ -20,7 +20,7 @@ def login():
     print(session['username'])
     return redirect(url_for('chats_all.my_chats'))
 
-  if request.method == 'POST':
+  if login_form.validate_on_submit():
     username = request.form['username']
     password = request.form['password']
 
@@ -44,7 +44,7 @@ def login():
     else:
       flash("danger|Username or password incorrect")
       return render_template('login/login.html')
-  return render_template('login/login.html')
+  return render_template('login/login.html', form=login_form)
 
 @login_signup.route("/signup", methods=['POST', 'GET'])
 def signup():

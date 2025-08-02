@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models import User, db
 from forms import LoginForm, SignupForm
 
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 
 login_signup = Blueprint(
   'login_signup', 
@@ -18,8 +18,7 @@ login_signup = Blueprint(
 def login():
   login_form = LoginForm()
   # If user is already signed in
-  if 'username' in session:
-    print(session['username'])
+  if current_user.is_authenticated:
     return redirect(url_for('chats_all.my_chats'))
 
   if login_form.validate_on_submit():
@@ -48,6 +47,9 @@ def login():
 
 @login_signup.route("/signup", methods=['POST', 'GET'])
 def signup():
+  if current_user.is_authenticated:
+    return redirect(url_for('chats_all.my_chats'))
+    
   signup_form = SignupForm()
   if signup_form.validate_on_submit():
     username = signup_form.username.data

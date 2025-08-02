@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from flask_login import LoginManager
+from flask import Flask, render_template, redirect, url_for
+from flask_login import LoginManager, current_user
 from models import db, migrate, User
 
 from views.login_signup import login_signup
@@ -34,4 +34,6 @@ def load_user(user_id):
 # Index BP
 @app.route('/')
 def index():
+  if current_user.is_authenticated:
+    return redirect(url_for('chats_all.my_chats'))
   return render_template('index.html')

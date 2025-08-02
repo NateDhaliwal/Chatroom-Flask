@@ -1,4 +1,8 @@
-.btn, input, select, option {
+.btn,
+input,
+select,
+option,
+textarea {
   border: 2px var(--primary) solid;
   border-radius: var(--btn-roundness);
   transition: var(--btn-bg-trans-duration);
@@ -6,7 +10,10 @@
   color: var(--primary);
 }
 
-.btn:hover, input:hover, select:hover option:hover {
+.btn:hover,
+input:hover,
+select:hover option:hover,
+textarea:hover {
   background-color: var(--primary);
   color: var(--secondary);
   transform: scale(var(--btn-hover-scale));

@@ -45,13 +45,11 @@ content %}
       </div>
       <div class="modal-body">
         <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
-          <label for="chat_name" id="chat_name"
-            >Chat name: {{ form.name }}</label
-          >
+          {{ form.name(class="form-control", id="floatingNameInput", placeholder="Name") }}
+          <label for="floatingNameInput">Chat name</label>
           <br />
-          <label for="chat_description" id="chat_description"
-            >Chat description (optional): {{ form.description }}</label
-          >
+          {{ form.description(class="form-control", id="floatingDescInput", placeholder="Description" }}
+          <label for="floatingDescInput">Chat description (optional)</label>
           <br />
           <button type="submit" class="btn btn-primary">Create chat</button>
         </form>

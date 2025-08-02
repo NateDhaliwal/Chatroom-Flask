@@ -16,22 +16,54 @@ content %}
 
 <h1>My Chats</h1>
 
-<button popovertarget="create-chat-modal">
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#create-chat-modal"
+>
   <i class="fa-solid fa-plus"></i> Create chat
 </button>
 
-<dialog id="create-chat-modal" class="modal" popover>
-  <h2>Create chat</h2>
-  <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
-    <label for="chat_name" id="chat_name">Chat name: {{ form.name }}</label>
-    <br />
-    <label for="chat_description" id="chat_description"
-      >Chat description (optional): {{ form.description }}</label
-    >
-    <br />
-    <button type="submit"><i class="fa-solid fa-plus"></i>Create chat</button>
-  </form>
-</dialog>
+<div
+  id="create-chat-modal"
+  class="modal fade"
+  tabindex="-1"
+  aria-labelledby="createChatModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="createChatModalTitle">Create chat</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
+          <label for="chat_name" id="chat_name"
+            >Chat name: {{ form.name }}</label
+          >
+          <br />
+          <label for="chat_description" id="chat_description"
+            >Chat description (optional): {{ form.description }}</label
+          >
+          <br />
+          <button type="submit" class="btn btn-primary">Create chat</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <br />
 

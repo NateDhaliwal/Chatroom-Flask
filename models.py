@@ -6,6 +6,8 @@ from flask_login import UserMixin
 
 from datetime import datetime
 
+from utils import get_gravatar_hash
+
 db = SQLAlchemy()
 migrate = Migrate()
 
@@ -45,7 +47,9 @@ class User(db.Model, UserMixin):
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(15), nullable=False, unique=True)
   name = db.Column(db.String(30))
+  email = db.Column(db.String, nullable=False, unique=True)
   hashed_password = db.Column(db.String, nullable=False)
+  avatar_url = db.Column(db.String, default=get_gravatar_hash(email))
   
 class Chat(db.Model):
   __tablename__ = "chats"

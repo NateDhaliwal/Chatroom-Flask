@@ -1,6 +1,8 @@
-from app import login_manager
+import hashlib
 from models import User
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
+def get_gravatar_hash(email, size=80, default="identicon"):
+    email = email.strip().lower()
+    email_hash = hashlib.md5(email.encode("utf-8")).hexdigest()
+    url = f"https://www.gravatar.com/avatar/{email_hash}?s={size}&d={default}"
+    return url

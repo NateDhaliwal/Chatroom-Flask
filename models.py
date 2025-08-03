@@ -50,6 +50,19 @@ class User(db.Model, UserMixin):
   email = db.Column(db.String, nullable=False, unique=True)
   hashed_password = db.Column(db.String, nullable=False)
   avatar_url = db.Column(db.String, unique=True, nullable=False)
+
+  # One-to-many: chats owned
+  owned_chats = db.relationship("Chat", backref="owner", lazy=True)
+
+  # Many-to-many-like: all chats the user is a member of
+  joined_chats = db.relationship(
+    "Chat",
+    secondary="chat_members",
+    primaryjoin="User.id == ChatMember.username",
+    secondaryjoin="Chat.id == ChatMember.chat_id",
+    viewonly=True,
+    backref="members"
+  )
   
 class Chat(db.Model):
   __tablename__ = "chats"
@@ -59,6 +72,9 @@ class Chat(db.Model):
   chat_description = db.Column(db.String(100))
   chat_owner = db.Column(db.Integer, db.ForeignKey("users.id", name="fk_userid_chat_owner"), nullable=False)
   chat_date_made = db.Column(db.Date, default=datetime.now(), nullable=False)
+
+  messages = db.relationship("ChatMessage", backref="chat", lazy=True)
+  chat_memberships = db.relationship("ChatMember", backref="chat", lazy=True)
 
 class ChatMessage(db.Model):
   __tablename__ = "chat_messages"

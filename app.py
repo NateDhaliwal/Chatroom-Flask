@@ -31,6 +31,14 @@ login_manager.login_view = "login_signup.login"
 def load_user(user_id):
   return User.query.filter_by(id=user_id).first()
 
+@app.context_processor
+def inject_joined_chats():
+  if current_user.is_authenticated:
+    joined_chats = current_user.joined_chats
+    return dict(joined_chats=joined_chats)
+  return dict(joined_chats=[])
+
+
 # Index BP
 @app.route('/')
 def index():

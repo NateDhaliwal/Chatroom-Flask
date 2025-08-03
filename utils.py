@@ -1,5 +1,4 @@
 import hashlib
-from models import User
 
 def get_gravatar_hash(email, size=80, default="identicon"):
     email = email.strip().lower()

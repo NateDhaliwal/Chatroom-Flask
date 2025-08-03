@@ -49,7 +49,7 @@ class User(db.Model, UserMixin):
   name = db.Column(db.String(30))
   email = db.Column(db.String, nullable=False, unique=True)
   hashed_password = db.Column(db.String, nullable=False)
-  avatar_url = db.Column(db.String, default=get_gravatar_hash(email))
+  avatar_url = db.Column(db.String, unique=True, nullable=False)
   
 class Chat(db.Model):
   __tablename__ = "chats"

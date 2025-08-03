@@ -4,11 +4,9 @@ block content %}
 <h1>Login to Chatroom!</h1>
 
 <form method="post" action="/login">
-  {{ form.csrf_token }}
-  <label for="username" id="username">Username: {{ form.username }}</label>
-  <br />
-  <label for="password" id="password">Password: {{ form.password }}</label>
-  <br />
+  {{ form.csrf_token }} {{ render_field(form.username) }} {{
+  render_field(form.password) }}
+
   <label for="remember_me" id="remember_me"
     >Remember me {{ form.remember_me }}</label
   >

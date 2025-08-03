@@ -3,8 +3,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from models import User, db
 from forms import LoginForm, SignupForm
+from utils import get_gravatar_hash
 
 from flask_login import login_user, logout_user, current_user
+
 
 login_signup = Blueprint(
   'login_signup', 
@@ -12,6 +14,11 @@ login_signup = Blueprint(
   static_folder='../../static', 
   template_folder='templates'
 )
+
+@login_signup.route("/logout")
+def logout():
+  logout_user()
+  return redirect(url_for("index"))
 
 # Login + Signup BP
 @login_signup.route("/login", methods=['POST', 'GET'])
@@ -56,6 +63,8 @@ def signup():
     name = signup_form.name.data if not None else username
     password = signup_form.password.data
     hashed_password = generate_password_hash(password, "scrypt", 16)
+    email = signup_form.email.data
+    gravatar_hash = get_gravatar_hash(email)
     remember_me = signup_form.remember_me.data
 
     # Check if user exists
@@ -65,7 +74,7 @@ def signup():
 
     # Create instance of User class with new user's data
     user_id = len(User.query.all()) + 1
-    new_user = User(id=user_id, username=username, name=name, hashed_password=hashed_password)
+    new_user = User(id=user_id, username=username, name=name, email=email, avatar_url=gravatar_hash, hashed_password=hashed_password)
 
     # Insert into database
     db.session.add(new_user)

@@ -1,6 +1,6 @@
 import hashlib
 
-def get_gravatar_hash(email, size=80, default="identicon"):
+def get_gravatar_hash(email, size=30, default="identicon"):
     email = email.strip().lower()
     email_hash = hashlib.md5(email.encode("utf-8")).hexdigest()
     url = f"https://www.gravatar.com/avatar/{email_hash}?s={size}&d={default}"

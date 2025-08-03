@@ -7,7 +7,7 @@ from views.chats_parent import chats_parent
 from views.chats_all import chats_all
 from views.chats_main import chats_main
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static', template_folder="templates")
 
 app.secret_key = "a very secret key" # __import__("secrets").token_hex(16)
 

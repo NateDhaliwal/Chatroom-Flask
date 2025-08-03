@@ -231,8 +231,8 @@
               </div>
               {% endfor %} {% endif %} {% endwith %}
             </div>
-            {% block content %}{% endblock %} {% if
-            current_user.is_authenticated %}
+            {% block content %}{% endblock %} {% include
+            'components/footer.html' %} {% if current_user.is_authenticated %}
           </div>
           <!-- end col -->
         </div>

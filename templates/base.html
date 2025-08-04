@@ -76,8 +76,8 @@
                   id="submenu1"
                   data-bs-parent="#menu"
                 >
-                  {% if joined_chats and len(joined_chats) > 0 %} {% for chat in
-                  joined_chats %}
+                  {% if joined_chats and (joined_chats | length) > 0 %} {% for
+                  chat in joined_chats %}
                   <li class="w-100">
                     <a
                       href="{{ url_for('chats_main.chat_page', chat_name=chat.chat_name)}}"

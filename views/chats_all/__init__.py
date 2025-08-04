@@ -15,7 +15,7 @@ chats_all = Blueprint(
 def my_chats():
   form = CreateChatForm()
     
-  return render_template("my_chats/my_chats.html", len=len, form=form)
+  return render_template("my_chats/my_chats.html", form=form)
 
 @chats_all.route("/chats/all")
 @login_required
@@ -23,6 +23,5 @@ def all_chats():
   all_chats_list = Chat.query.all()
   return render_template(
     "all_chats/all_chats.html",
-    len=len,
     all_chats_list=all_chats_list
   )

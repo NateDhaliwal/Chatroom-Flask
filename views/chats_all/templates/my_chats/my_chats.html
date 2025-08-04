@@ -48,29 +48,35 @@ content %}
 
 <br />
 
-{% if len(joined_chats) > 0 %}
+{% if (joined_chats | length) > 0 %}
 <div id="joined-chats">
-  {% for joined_chat in joined_chats %}
-  <div class="card" id="chat">
-    <h3 class="chat_name">
+  {% for chat in joined_chats %}
+  <div class="card" style="width: 50%">
+    <div class="card-body text-center">
+      <h5 class="card-title">{{ chat.chat_name }}</h5>
+
+      <p class="card-text">
+        {% if chat.chat_description %} {% if (chat.chat_description | length) >
+        100 %} {{ chat.chat_description[:100] }}... {% else %} {{
+        chat.chat_description }} {% endif %} {% endif %}
+      </p>
       <a
-        href="{{ url_for('chats_main.chat_page', chat_name=joined_chat.chat_name)}}"
+        href="{{ url_for('chats_main.chat_page', chat_name=chat.chat_name) }}"
+        class="btn btn-primary"
+        >Go to chat</a
       >
-        {{ joined_chat.chat_name }}
-      </a>
-    </h3>
-    <p class="chat_description">{{ joined_chat.chat_description }}</p>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+  {% else %}
+  <p>No chats yet. Join one to get started!</p>
+  {% endif %}
+
+  <p>
+    <a href="{{ url_for('chats_all.all_chats') }}"
+      >View all chats <i class="fa-solid fa-arrow-right"></i
+    ></a>
+  </p>
+
+  {% endblock %}
 </div>
-{% else %}
-<p>No chats yet. Join one to get started!</p>
-{% endif %}
-
-<p>
-  <a href="{{ url_for('chats_all.all_chats') }}"
-    >View all chats <i class="fa-solid fa-arrow-right"></i
-  ></a>
-</p>
-
-{% endblock %}

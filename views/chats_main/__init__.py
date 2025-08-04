@@ -21,7 +21,7 @@ def create_chat():
     # Fetch form fields
     chat_name = form.name.data
     chat_description = form.description.data
-    chat_owner = current_user.username
+    chat_owner_id = current_user.id
 
     chat_id = len(Chat.query.all()) + 1
     # Create chat
@@ -29,7 +29,7 @@ def create_chat():
       id=chat_id,
       chat_name=chat_name,
       chat_description=chat_description,
-      chat_owner=chat_owner
+      chat_owner=chat_owner_id
     )
 
     db.session.add(new_chat)
@@ -40,7 +40,7 @@ def create_chat():
     new_member = ChatMember(
       id=chat_member_id,
       chat_id=chat_id,
-      username=chat_owner
+      user_id=chat_owner_id
     )
 
     db.session.add(new_member)

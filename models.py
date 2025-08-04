@@ -58,7 +58,7 @@ class User(db.Model, UserMixin):
   joined_chats = db.relationship(
     "Chat",
     secondary="chat_members",
-    primaryjoin="User.id == ChatMember.username",
+    primaryjoin="User.id == ChatMember.user_id",
     secondaryjoin="Chat.id == ChatMember.chat_id",
     viewonly=True,
     backref="members"
@@ -90,4 +90,4 @@ class ChatMember(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)
   chat_id = db.Column(db.Integer, db.ForeignKey('chats.id', name="fk_chatid_chatid"), nullable=False)
-  username = db.Column(db.Integer, db.ForeignKey('users.id', name="fk_userid_username"), nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id', name="fk_userid_username"), nullable=False)

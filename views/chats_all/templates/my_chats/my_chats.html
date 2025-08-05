@@ -1,58 +1,82 @@
-{% extends 'base.html' %}
-
-{% block title %}My Chats{% endblock %}
-
-{% block content %}
-
-<script>
-    function showCreateChatModal() {
-        const createChatModal = document.getElementById("create-chat-modal");
-        if (createChatModal.style.display == "none") {
-            createChatModal.style.display = "block";
-        } else {
-            createChatModal.style.display = "none";
-        }
-    }
-</script>
+{% extends 'base.html' %} {% block title %}My Chats{% endblock %} {% block
+content %}
 
 <h1>My Chats</h1>
 
-<button onclick="showCreateChatModal()"><i class="fa-solid fa-plus"></i> Create chat</button>
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#create-chat-modal"
+>
+  <i class="fa-solid fa-plus"></i> Create chat
+</button>
 
-<dialog id="create-chat-modal" class="modal" style="display:none;">
-    <h2>Create chat</h2>
-    <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
-        <label for="chat_name" id="chat_name">
-            <input name="chat_name" type="text" maxlength="20" placeholder="Enter the chat name">
-        </label>
-        <br>
-        <label for="chat_description" id="chat_description">
-            <textarea name="chat_description" maxlength="100" placeholder="Enter the chat description" required></textarea>
-        </label>
-        <br>
-        <button type="submit"><i class="fa-solid fa-plus"></i>Create chat</button>
-    </form>
-</dialog>
-
-<br>
-
-{% if len(joined_chats) > 0 %}
-    <div id="joined-chats">
-        {% for joined_chat in joined_chats %}
-            <div class="card" id="chat">
-                <h3 class="chat_name">
-                    <a href="{{ url_for('chats_main.chat_page', chat_name=joined_chat.chat_name)}}">
-                    {{ joined_chat.chat_name }}
-                    </a>
-                </h3>
-                <p class="chat_description">{{ joined_chat.chat_description }}</p>
-            </div>
-        {% endfor %}
+<div
+  id="create-chat-modal"
+  class="modal fade"
+  tabindex="-1"
+  aria-labelledby="createChatModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="createChatModalTitle">Create chat</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
+          {{ form.csrf_token }} {{ render_field(form.name) }} {{
+          render_field(form.description) }}
+          <button type="submit" class="btn btn-primary">Create chat</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
     </div>
-{% else %}
-    <p>No chats yet. Join one to get started!</p>
-{% endif %}
+  </div>
+</div>
 
-<p><a href="{{ url_for('chats_all.all_chats') }}">View all chats <i class="fa-solid fa-arrow-right"></i></a></p>
+<br />
 
-{% endblock %}
+{% if (joined_chats | length) > 0 %}
+<div id="joined-chats">
+  {% for chat in joined_chats %}
+  <div class="card" style="width: 50%">
+    <div class="card-body text-center">
+      <h5 class="card-title">{{ chat.chat_name }}</h5>
+
+      <p class="card-text">
+        {% if chat.chat_description %} {% if (chat.chat_description | length) >
+        100 %} {{ chat.chat_description[:100] }}... {% else %} {{
+        chat.chat_description }} {% endif %} {% endif %}
+      </p>
+      <a
+        href="{{ url_for('chats_main.chat_page', chat_name=chat.chat_name) }}"
+        class="btn btn-primary"
+        >Go to chat</a
+      >
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No chats yet. Join one to get started!</p>
+  {% endif %}
+
+  <p>
+    <a href="{{ url_for('chats_all.all_chats') }}"
+      >View all chats <i class="fa-solid fa-arrow-right"></i
+    ></a>
+  </p>
+
+  {% endblock %}
+</div>

@@ -1,26 +1,28 @@
-{% extends 'base.html' %}
-
-{% block title %}All Chats{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}All Chats{% endblock %} {% block
+content %}
 
 <h1>All chats</h1>
-{% if len(all_chats_list) > 0 %}
-    <div id="all-chats">
-        {% for chat in all_chats_list %}
-            <div class="card" id="chat">
-                <h3 class="chat_name">
-                    <a href="{{ url_for('chats_main.chat_page', chat_name=chat.chat_name) }}">{{ chat.chat_name }}</a>
-                    {% if chat.chat_name in joined_chats_names %}
-                        <span id="joined-tick"><i class="fa-solid fa-circle-check"></i></span>
-                    {% endif %}
-                </h3>
-                <p class="chat_description">{{ chat.chat_description }}</p>
-            </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <p>No chats yet. Create one to get started!</p>
-{% endif %}
+{% if (all_chats_list | length) > 0 %}
+<div id="all-chats">
+  {% for chat in all_chats_list %}
+  <div class="card" style="width: 50%">
+    <div class="card-body text-center">
+      <h5 class="card-title">{{ chat.chat_name }}</h5>
 
-{% endblock %}
+      <p class="card-text">
+        {% if chat.chat_description %} {% if (chat.chat_description | length) >
+        100 %} {{ chat.chat_description[:100] }}... {% else %} {{
+        chat.chat_description }} {% endif %} {% endif %}
+      </p>
+      <a
+        href="{{ url_for('chats_main.chat_page', chat_name=chat.chat_name) }}"
+        class="btn btn-primary"
+        >Go to chat</a
+      >
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No chats yet. Create one to get started!</p>
+{% endif %} {% endblock %}

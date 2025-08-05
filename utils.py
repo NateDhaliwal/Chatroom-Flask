@@ -1,14 +1,7 @@
-from functools import wraps
+import hashlib
 
-from flask import flash, redirect, session, url_for
-
-
-def login_required(function):
-  @wraps(function)
-  def wrapper(*args, **kwargs):
-    # Check if user is logged in
-    if 'username' not in session:
-      flash("danger|Please log in to access this page")
-      return redirect(url_for('login_signup.login'))
-    return function(*args, **kwargs)
-  return wrapper
+def get_gravatar_hash(email, size=30, default="identicon"):
+    email = email.strip().lower()
+    email_hash = hashlib.md5(email.encode("utf-8")).hexdigest()
+    url = f"https://www.gravatar.com/avatar/{email_hash}?s={size}&d={default}"
+    return url

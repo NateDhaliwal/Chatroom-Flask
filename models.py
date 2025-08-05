@@ -2,6 +2,11 @@
 #from sqlalchemy.dialects.sqlite import json
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+
+from datetime import datetime
+
+from utils import get_gravatar_hash
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -36,35 +41,53 @@ migrate = Migrate()
 # ''')
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
   __tablename__ = "users"
 
-  user_id = db.Column(db.Integer, primary_key=True)
+  id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(15), nullable=False, unique=True)
   name = db.Column(db.String(30))
-  hashed_password = db.Column(db.String(30), nullable=False)
+  email = db.Column(db.String, nullable=False, unique=True)
+  hashed_password = db.Column(db.String, nullable=False)
+  avatar_url = db.Column(db.String, unique=True, nullable=False)
+
+  # One-to-many: chats owned
+  owned_chats = db.relationship("Chat", backref="owner", lazy=True)
+
+  # Many-to-many-like: all chats the user is a member of
+  joined_chats = db.relationship(
+    "Chat",
+    secondary="chat_members",
+    primaryjoin="User.id == ChatMember.user_id",
+    secondaryjoin="Chat.id == ChatMember.chat_id",
+    viewonly=True,
+    backref="members"
+  )
   
 class Chat(db.Model):
   __tablename__ = "chats"
 
-  chat_id = db.Column(db.Integer, primary_key=True)
+  id = db.Column(db.Integer, primary_key=True)
   chat_name = db.Column(db.String(20), nullable=False, unique=True)
   chat_description = db.Column(db.String(100))
-  chat_owner = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-  chat_date_made = db.Column(db.Date, nullable=False)
+  chat_owner = db.Column(db.Integer, db.ForeignKey("users.id", name="fk_userid_chat_owner"), nullable=False)
+  chat_date_made = db.Column(db.Date, default=datetime.now(), nullable=False)
+
+  messages = db.relationship("ChatMessage", backref="chat", lazy=True)
+  chat_memberships = db.relationship("ChatMember", backref="chat", lazy=True)
 
 class ChatMessage(db.Model):
   __tablename__ = "chat_messages"
 
-  message_id = db.Column(db.Integer, primary_key=True)
-  message_poster = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+  id = db.Column(db.Integer, primary_key=True)
+  message_poster = db.Column(db.Integer, db.ForeignKey("users.id", name="fk_userid_message_poster"), nullable=False)
   message_content = db.Column(db.Text, nullable=False)
   message_date_made = db.Column(db.DateTime, nullable=False)
-  belongs_to_chat = db.Column(db.Integer, db.ForeignKey("chats.chat_id"), nullable=False)
+  chat_id = db.Column(db.Integer, db.ForeignKey("chats.id", name="fk_chatid_belongs_to_chat"), nullable=False)
 
 class ChatMember(db.Model):
   __tablename__ = 'chat_members'
 
-  chat_member_id = db.Column(db.Integer, primary_key=True)
-  chat_name = db.Column(db.Integer, db.ForeignKey('chats.chat_id'), nullable=False)
-  username = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+  id = db.Column(db.Integer, primary_key=True)
+  chat_id = db.Column(db.Integer, db.ForeignKey('chats.id', name="fk_chatid_chatid"), nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id', name="fk_userid_username"), nullable=False)

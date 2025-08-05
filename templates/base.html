@@ -1,35 +1,253 @@
+{% from "macros/form.html" import render_field %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %}</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <!--
   <link href="/static/style.css" type="text/css" rel="stylesheet" />
-  <link href="/static/fontawesome-free-6.7.2-web/css/fontawesome.css" rel="stylesheet" type="text/css">
-  <link href="/static/fontawesome-free-6.7.2-web/css/brands.css" rel="stylesheet" type="text/css">
-  <link href="/static/fontawesome-free-6.7.2-web/css/solid.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-  {% include "components/header.html" %}
-
-  <div class="flashed_messages">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          {% set css_class = message.split('|')[0] %}
-          {% set message_content = message.split('|')[1] %}
-          <div class="flashed_message">
-            <p class="flash {{ css_class }}">{{ message_content }}</p>
+  -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link
+      href="/static/fontawesome-free-6.7.2-web/css/fontawesome.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/static/fontawesome-free-6.7.2-web/css/brands.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/static/fontawesome-free-6.7.2-web/css/solid.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- prettier-ignore-start -->
+    {% if current_user.is_authenticated %}
+    <div class="container-fluid">
+      <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+          <div
+            class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100"
+          >
+            <span
+              class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white fs-5 d-none d-sm-inline"
+              >Joined chats and DMs</span
+            >
+            <ul
+              class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+              id="menu"
+            >
+              <li class="nav-item">
+                <a
+                  href="{{ url_for('chats_all.my_chats') }}"
+                  class="nav-link align-middle px-0"
+                >
+                  <i class="fs-4 bi-house"></i>
+                  <span class="ms-1 d-none d-sm-inline">My Chats</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#submenu1"
+                  data-bs-toggle="collapse"
+                  class="nav-link px-0 align-middle"
+                >
+                  <i class="fs-4 bi-chat"></i>
+                  <span class="ms-1 d-none d-sm-inline">Joined chats</span>
+                </a>
+                <ul
+                  class="collapse show nav flex-column ms-1"
+                  id="submenu1"
+                  data-bs-parent="#menu"
+                >
+                  {% if joined_chats and (joined_chats | length) > 0 %} {% for
+                  chat in joined_chats %}
+                  <li class="w-100">
+                    <a
+                      href="{{ url_for('chats_main.chat_page', chat_name=chat.chat_name)}}"
+                      class="nav-link px-0"
+                    >
+                      <span class="d-none d-sm-inline"
+                        >{{ chat.chat_name }}</span
+                      >
+                    </a>
+                  </li>
+                  {% endfor %} {% else %}
+                  <li class="w-100">
+                    <span class="d-none d-sm-inline"
+                      >No chats yet! Create one to get started.</span
+                    >
+                  </li>
+                  {% endif %}
+                </ul>
+              </li>
+              <!--
+              <li>
+                <a href="#" class="nav-link px-0 align-middle">
+                  <i class="fs-4 bi-table"></i>
+                  <span class="ms-1 d-none d-sm-inline">Orders</span></a
+                >
+              </li>
+              <li>
+                <a
+                  href="#submenu2"
+                  data-bs-toggle="collapse"
+                  class="nav-link px-0 align-middle"
+                >
+                  <i class="fs-4 bi-bootstrap"></i>
+                  <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a
+                >
+                <ul
+                  class="collapse nav flex-column ms-1"
+                  id="submenu2"
+                  data-bs-parent="#menu"
+                >
+                  <li class="w-100">
+                    <a href="#" class="nav-link px-0">
+                      <span class="d-none d-sm-inline">Item</span> 1</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="nav-link px-0">
+                      <span class="d-none d-sm-inline">Item</span> 2</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a
+                  href="#submenu3"
+                  data-bs-toggle="collapse"
+                  class="nav-link px-0 align-middle"
+                >
+                  <i class="fs-4 bi-grid"></i>
+                  <span class="ms-1 d-none d-sm-inline">Products</span>
+                </a>
+                <ul
+                  class="collapse nav flex-column ms-1"
+                  id="submenu3"
+                  data-bs-parent="#menu"
+                >
+                  <li class="w-100">
+                    <a href="#" class="nav-link px-0">
+                      <span class="d-none d-sm-inline">Product</span> 1</a
+                    >
+                  </li>
+                  <li class="w-100">
+                    <a href="#" class="nav-link px-0">
+                      <span class="d-none d-sm-inline">Product</span> 2</a
+                    >
+                  </li>
+                  <li class="w-100">
+                    <a href="#" class="nav-link px-0">
+                      <span class="d-none d-sm-inline">Product</span> 3</a
+                    >
+                  </li>
+                  <li class="w-100">
+                    <a href="#" class="nav-link px-0">
+                      <span class="d-none d-sm-inline">Product</span> 4</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#" class="nav-link px-0 align-middle">
+                  <i class="fs-4 bi-people"></i>
+                  <span class="ms-1 d-none d-sm-inline">Customers</span>
+                </a>
+              </li>
+              -->
+            </ul>
+            <hr />
+            <div class="dropdown pb-4">
+              <a
+                href="#"
+                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                id="dropdownUser1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src="{{ current_user.avatar_url }}"
+                  alt="{{ current_user.username }}'s avatar"
+                  width="30"
+                  height="30"
+                  class="rounded-circle"
+                />
+                <span class="d-none d-sm-inline mx-1"
+                  >{{ current_user.username }}</span
+                >
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-dark text-small shadow"
+                aria-labelledby="dropdownUser1"
+              >
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('login_signup.logout') }}"
+                    >Logout</a
+                  >
+                </li>
+              </ul>
+            </div>
           </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-  </div>
-  
-  {% block content %}
-  {% endblock %}
-
-  {% include "components/footer.html" %}
-</body>
+        </div>
+        <div class="col py-3">
+          {% endif %} {% if not current_user.is_authenticated %}
+          <div class="container py-4 text-center">
+            {% endif %}
+            <div class="alerts">
+              {% with messages = get_flashed_messages() %} {% if messages %} {%
+              for message in messages %} {% set css_class =
+              message.split('|')[0] %} {% set message_content =
+              message.split('|')[1] %}
+              <div
+                class="alert {{ 'alert-success' if css_class == 'success' else 'alert-danger' }}"
+                role="alert"
+              >
+                {{ message_content }}
+              </div>
+              {% endfor %} {% endif %} {% endwith %}
+            </div>
+            {% block content %}{% endblock %} {% include
+            'components/footer.html' %} {% if current_user.is_authenticated %}
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+      </div>
+      <!-- end container-fluid -->
+      {% else %}
+    </div>
+    <!-- end container -->
+    {% endif %}
+    <!-- prettier-ignore-end -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

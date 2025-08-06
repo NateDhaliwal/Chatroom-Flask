@@ -82,7 +82,7 @@ class ChatMessage(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   message_poster = db.Column(db.Integer, db.ForeignKey("users.id", name="fk_userid_message_poster"), nullable=False)
   message_content = db.Column(db.Text, nullable=False)
-  message_date_made = db.Column(db.DateTime, nullable=False)
+  message_date_made = db.Column(db.DateTime, default=datetime.now(), nullable=False)
   chat_id = db.Column(db.Integer, db.ForeignKey("chats.id", name="fk_chatid_belongs_to_chat"), nullable=False)
 
 class ChatMember(db.Model):

@@ -66,7 +66,7 @@ def create_message(chat_name):
     message_content = form.message.data
     new_message_id = len(ChatMessage.query.all()) + 1
     chat_id = Chat.query.filter_by(chat_name=chat_name).first().id
-    new_message = ChatMessage(id=1, message_poster=current_user.id, message_content=message_content, chat_id=chat_id)
+    new_message = ChatMessage(id=new_message_id, message_poster=current_user.id, message_content=message_content, chat_id=chat_id)
     db.session.add(new_message)
     db.session.commit()
     return redirect(url_for('chats_main.chat_page', chat_name=chat_name))

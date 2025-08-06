@@ -1,19 +1,26 @@
 {% extends 'base.html' %} {% block title %}Chat | {{ chat.chat_name }}{%
 endblock %} {% block content %}
 
-<h1>Chat | {{ chat.chat_name }}</h1>
+<h1 class="mb-3">Chat | {{ chat.chat_name }}</h1>
 
 <div id="messages">
   {% for chat_message in chat_messages %}
-  <div id="message">
-    <p id="message_details">
-      {{ User.query.get(chat_message.message_poster).username }} on {{
-      chat_message.message_date_made }}
-    </p>
-    <p id="message_content">{{ chat_message.message_content }}</p>
+  <div id="message" class="card">
+    <div class="card-body">
+      <p id="message_details" class="card-subtitle mb-2">
+        {{ User.query.get(chat_message.message_poster).username }} on {{
+        chat_message.message_date_made.strftime('%d/%m/%Y') }} at {{
+        chat_message.message_date_made.strftime('%H:%M %p').lower() }}:
+      </p>
+      <p id="message_content" class="pre-wrap-text card-text">
+        {{ chat_message.message_content }}
+      </p>
+    </div>
   </div>
   {% endfor %}
 </div>
+
+<hr />
 
 <div class="send-message">
   <form
@@ -26,5 +33,12 @@ endblock %} {% block content %}
     </button>
   </form>
 </div>
+
+<style>
+  .pre-wrap-text {
+      white-space: pre-line;
+      margin-left: inherit;
+  }
+</style>
 
 {% endblock %}

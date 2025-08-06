@@ -17,3 +17,6 @@ class SignupForm(FlaskForm):
 class CreateChatForm(FlaskForm):
     name = StringField("Chat name", validators=[DataRequired(message="Chat name cannot be blank"), Length(min=1, max=20, message="Chat name must be between 1 and 20 characters")])
     description = TextAreaField("Chat description (optional)", validators=[Length(max=200, message="Chat description cannot 200 characters")])
+
+class CreateChatMessageForm(FlaskForm):
+    content = TextAreaField("Send a message", validators=[DataRequired("Please input a message")])

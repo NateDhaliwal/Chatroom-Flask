@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 
 from models import Chat, ChatMember, ChatMessage, db
-from forms import CreateChatForm
+from forms import CreateChatForm, CreateChatMessageForm
 from flask_login import login_required, current_user
 
 chats_main = Blueprint(
@@ -51,8 +51,9 @@ def create_chat():
 
 @chats_main.route('/chat/<string:chat_name>')
 @login_required
-def chat_page(chat_name):
-    chat = Chat.query.filter_by(chat_name=chat_name).first()
-    chat_members = ChatMember.query.filter_by(chat_id=chat.id).all()
-    chat_messages = ChatMessage.query.filter_by(chat_id=chat.id).all()
-    return render_template('chat_page/chat_page.html', chat=chat, chat_members=chat_members, chat_messages=chat_messages)
+def chat_page(chat_id, chat_name):
+  form = CreateChatMessageForm()
+  chat = Chat.query.filter_by(chat_name=chat_name).first()
+  chat_members = ChatMember.query.filter_by(chat_id=chat.id).all()
+  chat_messages = ChatMessage.query.filter_by(chat_id=chat.id).all()
+  return render_template('chat_page/chat_page.html', form=form, chat=chat, chat_members=chat_members, chat_messages=chat_messages)

@@ -2,6 +2,51 @@
 content %}
 
 <h1>All chats</h1>
+
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#create-chat-modal"
+>
+  <i class="fa-solid fa-plus"></i> Create chat
+</button>
+
+<div
+  id="create-chat-modal"
+  class="modal fade"
+  tabindex="-1"
+  aria-labelledby="createChatModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="createChatModalTitle">Create chat</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ url_for('chats_main.create_chat') }}">
+          {{ form.csrf_token }} {{ render_field(form.name) }} {{
+          render_field(form.description) }}
+          <button type="submit" class="btn btn-primary">Create chat</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+
 {% if (all_chats_list | length) > 0 %}
 <div id="all-chats">
   {% for chat in all_chats_list %}

@@ -20,8 +20,10 @@ def my_chats():
 @chats_all.route("/chats/all")
 @login_required
 def all_chats():
+  form = CreateChatForm()
   all_chats_list = Chat.query.all()
   return render_template(
     "all_chats/all_chats.html",
-    all_chats_list=all_chats_list
+    all_chats_list=all_chats_list,
+    form=form
   )

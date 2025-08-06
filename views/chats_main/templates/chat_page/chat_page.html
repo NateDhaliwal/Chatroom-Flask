@@ -1,24 +1,28 @@
-{% extends 'base.html' %}
-
-{% block title %}Chat | {{ chat.chat_name }}{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Chat | {{ chat.chat_name }}{%
+endblock %} {% block content %}
 
 <h1>Chat | {{ chat.chat_name }}</h1>
 
 <div id="messages">
-    {% for chat_message in chat_message %}
-        <div id="message">
-            <p id="message_details">
-                <b>{{ chat_message.message_poster }}</b> |
-                {{ chat_message.message_date_made }}
-            </p>
-            <br>
-            <p id="message_content">
-                {{ chat_message.message_content }}
-            </p>
-        </div>
-    {% endfor %}
+  {% for chat_message in chat_message %}
+  <div id="message">
+    <p id="message_details">
+      <b>{{ chat_message.message_poster }}</b> | {{
+      chat_message.message_date_made }}
+    </p>
+    <br />
+    <p id="message_content">{{ chat_message.message_content }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="send-message">
+  <form
+    method="POST"
+    action="{{ url_for('chats_main.create_message', chat_name=chat.chat_name) }}"
+  >
+    {{ form.csrf_token }} {{ render_field(form.content) }}
+  </form>
 </div>
 
 {% endblock %}

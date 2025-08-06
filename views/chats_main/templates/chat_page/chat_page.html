@@ -13,6 +13,7 @@ endblock %} {% block content %}
         chat_message.message_date_made.strftime('%H:%M %p').lower() }}:
       </p>
       <p id="message_content" class="pre-wrap-text card-text">
+        <!-- TODO: Delete most recent comment; fix the safe -->
         {{ chat_message.message_content | safe | e }}
       </p>
     </div>

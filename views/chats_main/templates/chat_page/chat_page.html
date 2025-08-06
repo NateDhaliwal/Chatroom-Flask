@@ -4,13 +4,12 @@ endblock %} {% block content %}
 <h1>Chat | {{ chat.chat_name }}</h1>
 
 <div id="messages">
-  {% for chat_message in chat_message %}
+  {% for chat_message in chat_messages %}
   <div id="message">
     <p id="message_details">
-      <b>{{ chat_message.message_poster }}</b> | {{
+      {{ User.query.get(chat_message.message_poster).username }} on {{
       chat_message.message_date_made }}
     </p>
-    <br />
     <p id="message_content">{{ chat_message.message_content }}</p>
   </div>
   {% endfor %}
@@ -21,7 +20,10 @@ endblock %} {% block content %}
     method="POST"
     action="{{ url_for('chats_main.create_message', chat_name=chat.chat_name) }}"
   >
-    {{ form.csrf_token }} {{ render_field(form.content) }}
+    {{ form.csrf_token }} {{ render_field(form.message) }}
+    <button class="btn btn-primary" type="submit">
+      <i class="bi bi-send"></i> Send
+    </button>
   </form>
 </div>
 

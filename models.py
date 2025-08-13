@@ -68,7 +68,7 @@ class Chat(db.Model):
   __tablename__ = "chats"
 
   id = db.Column(db.Integer, primary_key=True)
-  chat_name = db.Column(db.String(20), nullable=False, unique=True)
+  chat_name = db.Column(db.String(30), nullable=False, unique=True)
   chat_description = db.Column(db.String(100))
   chat_owner = db.Column(db.Integer, db.ForeignKey("users.id", name="fk_userid_chat_owner"), nullable=False)
   chat_date_made = db.Column(db.Date, default=datetime.now(), nullable=False)

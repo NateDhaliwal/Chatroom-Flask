@@ -13,8 +13,7 @@ endblock %} {% block content %}
         chat_message.message_date_made.strftime('%H:%M %p').lower() }}:
       </p>
       <p id="message_content" class="pre-wrap-text card-text">
-        <!-- TODO: Delete most recent comment; fix the safe -->
-        {{ chat_message.message_content | safe | e }}
+        {{ chat_message.message_content }}
       </p>
     </div>
   </div>
@@ -32,6 +31,7 @@ endblock %} {% block content %}
     <button class="btn btn-primary" type="submit">
       <i class="bi bi-send"></i> Send
     </button>
+    <input type="submit" hidden />
   </form>
 </div>
 
@@ -41,5 +41,16 @@ endblock %} {% block content %}
       margin-left: inherit;
   }
 </style>
+
+<script>
+  document.querySelectorAll("textarea").forEach(function (textarea) {
+    textarea.style.height = textarea.scrollHeight + "px";
+    textarea.style.overflowY = "hidden";
+    textarea.addEventListener("input", function () {
+      this.style.height = "auto";
+      this.style.height = this.scrollHeight + "px";
+    });
+  });
+</script>
 
 {% endblock %}

@@ -26,12 +26,12 @@ endblock %} {% block content %}
   <form
     method="POST"
     action="{{ url_for('chats_main.create_message', chat_name=chat.chat_name) }}"
+    id="submit_message_form"
   >
     {{ form.csrf_token }} {{ render_field(form.message) }}
-    <button class="btn btn-primary" type="submit">
+    <button class="btn btn-primary" type="submit" id="submit_message">
       <i class="bi bi-send"></i> Send
     </button>
-    <input type="submit" hidden />
   </form>
 </div>
 
@@ -50,6 +50,17 @@ endblock %} {% block content %}
       this.style.height = "auto";
       this.style.height = this.scrollHeight + "px";
     });
+  });
+
+  // Get the input field
+  let send_message_form = document.getElementById("submit_message_form");
+
+  // Execute a function when the user presses a key on the keyboard
+  send_message_form.addEventListener("keydown", function (event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.ctrlKey && event.key === "Enter") {
+      document.getElementById("submit_message").click();
+    }
   });
 </script>
 

@@ -19,4 +19,4 @@ class CreateChatForm(FlaskForm):
     description = TextAreaField("Chat description (optional)", validators=[Length(max=200, message="Chat description cannot 200 characters")])
 
 class CreateChatMessageForm(FlaskForm):
-    message = TextAreaField("Send a message", validators=[DataRequired("Please input a message")])
+    message = TextAreaField("Send a message", validators=[DataRequired("Please input a message")], render_kw={"id": "send_message_field"})

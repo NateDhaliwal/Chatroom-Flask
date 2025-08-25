@@ -52,7 +52,12 @@ content %}
   {% for chat in all_chats_list %}
   <div class="card" style="width: 50%">
     <div class="card-body text-center">
-      <h5 class="card-title">{{ chat.chat_name }}</h5>
+      <h5 class="card-title">
+        {{ chat.chat_name }} {% for member in chat.chat_memberships %} {% if
+        member.user_id == current_user.user_id %}
+        <i class="bi bi-check-circle-fill"></i>
+        {% endif %} {% endfor %}
+      </h5>
 
       <p class="card-text">
         {% if chat.chat_description %} {% if (chat.chat_description | length) >

@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, redirect, url_for
 from flask_login import LoginManager, current_user
 from models import db, migrate, User
@@ -33,6 +35,11 @@ def load_user(user_id):
 
 @app.context_processor
 def inject_joined_chats():
+  js_dir = os.path.join(app.static_folder, "js")
+  js_files = [
+      f"js/{filename}" for filename in os.listdir(js_dir)
+      if filename.endswith(".js")
+  ]
   if current_user.is_authenticated:
     joined_chats = current_user.joined_chats
     return dict(joined_chats=joined_chats)

@@ -56,5 +56,10 @@ def index():
     return redirect(url_for('chats_all.my_chats'))
   return render_template('index.html')
 
+
+@app.errorhandler(404)
+def not_found():
+  return render_template('404.html'), 404
+
 if __name__ == '__main__':
   socketio.run(app, debug=True, use_reloader=True)

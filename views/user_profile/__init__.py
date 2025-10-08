@@ -13,5 +13,6 @@ user_profile = Blueprint(
 
 @user_profile.route('/user/<str:username>/profile')
 def user_profile_route(username):
-    if User.query.filter_by().exists():
-        pass
+    if not User.query.filter_by().exists():
+        abort(404)
+    

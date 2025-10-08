@@ -11,15 +11,15 @@ endblock %} {% block content %}
 
 <div id="messages">
   {% for chat_message in chat_messages %}
-  <div id="message" class="card">
+  <div id="message" class="card mt-3">
     <div class="card-body">
-      <p id="message_details" class="card-subtitle mb-2">
+      <p id="message_details" class="card-subtitle">
         {{ User.query.get(chat_message.message_poster).username }} on {{
         chat_message.message_date_made.strftime('%d/%m/%Y') }} at {{
         chat_message.message_date_made.strftime('%H:%M %p').lower() }}:
       </p>
       <p id="message_content" class="pre-wrap-text card-text">
-        {{ chat_message.message_content }}
+        {{ to_markdown(chat_message.message_content).lstrip("<p>").rstrip("</p>") | safe }}
       </p>
     </div>
   </div>
